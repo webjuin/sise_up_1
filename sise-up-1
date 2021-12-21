@@ -70,6 +70,7 @@ while True:
             price.append(aa)
             #print(code, c1, c2)
 
+# 종목별 그래프로 표시
         #print(type(price)
         plt.plot(price)
         plt.pause(1)
