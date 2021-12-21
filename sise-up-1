@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# 모듈 선언
 import selenium
 from selenium import webdriver
 import pandas as pd
@@ -7,18 +8,20 @@ import time
 import sys
 import matplotlib.pyplot as plt
 
-
+# 크롬 드라이버 선언
 options = webdriver.ChromeOptions()
 options.add_argument('headless')
 driver = webdriver.Chrome(executable_path='chromedriver_4664', options=options)
 
+# 지속적으로 수집
 while True:
     os.system('cls')
     url_1 = 'https://finance.naver.com/'
     driver.get(url_1)
     codes = []
     names = []
-
+    
+# 상승 종목 15개 코드 및 이름 
     for i in range(1, 16):
         info_1 = driver.find_element_by_css_selector('#_topItems2 > tr:nth-child(' + str(i) + ') > th > a') # _topItems2
         code = info_1.get_attribute('href')[-6:]
@@ -34,11 +37,13 @@ while True:
     #//*[@id="_topItems2"]/tr[1]/td[3]
     #up = info_3.get_attribute('innerText')
 
+# 상승 종목 코드 및 이름 데이터 프레임으로 엑셀 저장
     df = pd.DataFrame({'code' : codes, 'name' : names})
     #df.to_excel('up.xlsx')
     print(df)
     #time.sleep(5000)
-    
+
+# 상승 종목 코드에 따른 분당 데이터 수집
     for code in codes:
         url_2 = 'https://finance.naver.com/item/sise.naver?code=' + str(code)
         driver.get(url_2)
